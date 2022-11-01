@@ -2,7 +2,7 @@
 
 //This program consumes output produced by producer.c 
 
-//This program doubles ints passed to it by the producer
+//This program adds together 2 ints passed to it by the producer
 
 #include <stdio.h>
 #include <pthread.h>
@@ -12,18 +12,20 @@
 #include <sys/shm.h>
 
 sem_t semaphore; 
-void *sharedMemory;
+int shmid;
 
 struct buffer_t {
     char table[2];
-    int in;
-    int out;
-} buffer;
+};
+
+buffer_t *buffer;
 
 int main() {
-    shmid = shmget(10312022, sizeof(buffer), 0666);
-    printf
+    shmid = shmget(10312022, sizeof(buffer), 0666); //get shared memory segment created by sender
+    buffer = shmat(shmid, NULL, 0); //attach to shared memory segment
 
+    printf("The integers received from the producer are: ");
+    printf("%d", buffer.table[0]);
 
     return 0;
 }

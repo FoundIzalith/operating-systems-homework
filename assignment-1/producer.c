@@ -3,8 +3,8 @@
 //This program produces output to be read by a consumer process
 //found in consumer.c
 
-//Takes in integers from the user until it reads in 0.
-//Input is passed to the consumer, which doubles and prints it
+//Takes in 2 integers from the user
+//Input is passed to the consumer, which adds them together and prints the value
 
 #include <stdio.h>
 #include <pthread.h>
@@ -14,19 +14,25 @@
 #include <sys/shm.h>
 
 sem_t semaphore; 
-void *sharedMemory; 
+int shmid;
 
 struct buffer_t {
     int table[2];
-    int in;
-    int out;
-} buffer;
+};
+
+buffer_t *buffer; 
 
 int main() {    
-    int shmid;
-    shmid = shmget(10312022, sizeof(buffer), 0666 | IPC_CREAT); //create shared memory
-    printf("Enter an integer: ");
-    read(0, buffer.table, 2);
+    shmid = shmget(10312022, sizeof(buffer_t), 0666 | IPC_CREAT); //create shared memory
+    buffer = (buffer_t*)shmat(shmid, NULL, 0); //attach to shared memory segment 
+
+    for(int i = 0; i < 2; i++) {
+        printf("Enter integer #%d: ", i);
+        scanf("%d", &buffer.table[i]);
+    }
+
+    printf("Input received! Sending to consumer...\n");
+    
 
     return 0;
 }
