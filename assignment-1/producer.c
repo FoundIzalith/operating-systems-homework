@@ -14,17 +14,19 @@
 #include <sys/shm.h>
 
 sem_t semaphore; 
+void *sharedMemory; 
 
 struct buffer_t {
-    char table[2];
+    int table[2];
     int in;
     int out;
 } buffer;
 
-int main() {
-    semaphore = sem_open("/producerConsumerPipe", 0_CREAT, permissions, 0);
-    
-    shmget(producerConsumerMem, 4, NULL); //create shared memory
+int main() {    
+    int shmid;
+    shmid = shmget(10312022, sizeof(buffer), 0666 | IPC_CREAT); //create shared memory
+    printf("Enter an integer: ");
+    read(0, buffer.table, 2);
 
     return 0;
 }

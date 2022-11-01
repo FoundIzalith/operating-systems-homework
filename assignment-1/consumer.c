@@ -12,10 +12,17 @@
 #include <sys/shm.h>
 
 sem_t semaphore; 
+void *sharedMemory;
+
+struct buffer_t {
+    char table[2];
+    int in;
+    int out;
+} buffer;
 
 int main() {
-    semaphore = sem_open("/producerConsumerPipe", 0_CREAT, permissions, 0);
-
+    shmid = shmget(10312022, sizeof(buffer), 0666);
+    printf
 
 
     return 0;
