@@ -26,6 +26,10 @@ int main() {
 
     printf("The integers received from the producer are: ");
     printf("%d", buffer.table[0]);
+    printf("%d", buffer.table[1]);
+    
+    int sum = buffer.table[0] + buffer.table[1];
+    printf("The sum of the 2 inputted integers is %d", sum);
 
     return 0;
 }

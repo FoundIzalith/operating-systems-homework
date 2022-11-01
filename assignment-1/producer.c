@@ -26,6 +26,9 @@ int main() {
     shmid = shmget(10312022, sizeof(buffer_t), 0666 | IPC_CREAT); //create shared memory
     buffer = (buffer_t*)shmat(shmid, NULL, 0); //attach to shared memory segment 
 
+    sem_open("/prodConsSem", 0x0008, 0x0002, 1);
+    sem_wait(&semaphore);
+
     for(int i = 0; i < 2; i++) {
         printf("Enter integer #%d: ", i);
         scanf("%d", &buffer.table[i]);
