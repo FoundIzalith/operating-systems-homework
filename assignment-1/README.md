@@ -26,10 +26,10 @@ Even attempting to force it to run, with the **continue** and **jump** commands 
 
 ![GDB](images/gdb2.png)
 
-I've been trying to figure out what's wrong for a while now and have come up with nothing. I can't find other people online with similar problems, as most people who are unable to get to main fundamentally misunderstood C. 
+I've been trying to figure out what's wrong for a while now and have come up with nothing. I can't find other people online with similar problems, as most people who are unable to get to main fundamentally misunderstood C. Hopefully I am not one of those people myself.
 
 
-# Compiling and Running**
+# Compiling and Running
 Both programs can be compiled and run using the included Makefile with the command **make run**. Created files can be removed with **make clean.**
 
 You can also manually compile and run the programs with the following commands:
