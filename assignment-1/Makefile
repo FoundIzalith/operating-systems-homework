@@ -7,7 +7,7 @@ consumer: consumer.c
 	gcc consumer.c -pthread -lrt -o consumer
 
 run: producer consumer
-	./producer & ./consumer
+	./producer && ./consumer
 
 clean:
 	rm producer
