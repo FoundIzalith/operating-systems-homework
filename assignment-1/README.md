@@ -1,4 +1,4 @@
-# The Programs** 
+# The Programs
 
 This project contains 2 programs: producer.c and consumer.c
 
