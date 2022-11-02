@@ -3,7 +3,7 @@ all: run
 producer: producer.c
 	gcc producer.c -pthread -lrt -o producer
 
-consumer: consumer.clean
+consumer: consumer.c
 	gcc consumer.c -pthread -lrt -o consumer
 
 run: producer consumer
