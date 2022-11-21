@@ -73,7 +73,6 @@ int readInFile(char **argv) {
     for(int i = 0; i < 5; ++i) {
         //fscanf(file, "%s", buffer);
         fgets(buffer, 32, file);
-        printf("Buffer: %s", buffer);
         allocation[i][0] = (int)buffer[0] - (int)'0';
         allocation[i][1] = (int)buffer[2] - (int)'0';
         allocation[i][2] = (int)buffer[4] - (int)'0';
@@ -89,6 +88,28 @@ int readInFile(char **argv) {
     }
 
     fclose(file);
+
+    printf("Allocation matrix:\n");
+    for(int i = 0; i < n_Processes; i++) {
+        for(int j = 0; j < n_Resources; j++) {
+            printf("%d ", allocation[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("Max matrix:\n");
+    for(int i = 0; i < n_Processes; i++) {
+        for(int j = 0; j < n_Resources; j++) {
+            printf("%d ", max[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("Available resources:\n");
+    for(int i = 0; i < n_Resources; i++) {
+        printf("%d ", available[i]);
+    }
+    printf("\n");
 
     return 0;
 }
