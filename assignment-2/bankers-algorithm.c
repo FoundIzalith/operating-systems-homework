@@ -11,9 +11,11 @@ int max[n_Processes][n_Resources]; //Max of a given resource a process may reque
 int allocation[n_Processes][n_Resources]; //Current # of resources allocated to process
 int need[n_Processes][n_Resources]; //# of resources a process needs
 
+int safeSequence[n_Processes];
+
 int readInFile(char **argv); 
 bool safety();
-void allocate();
+void resourceRequest();
  
 //Pass data file as input
 int main(int argc, char **argv) {
@@ -35,9 +37,19 @@ int main(int argc, char **argv) {
         }
     }
 
+    //Run safety algorithm
     bool safe = safety();
-    
 
+    if (safe == true)  {
+        printf("The system is in a safe state.\n");
+        printf("The safe sequence is: ");
+        for(int i = 0; i < n_Processes; i++) {
+            printf(" P%d ->", safeSequence[i]);
+        }
+    }
+
+    if (safe == false) printf("The system is in an unsafe state.\n");
+    
     return 0;
 }
 
@@ -59,18 +71,20 @@ int readInFile(char **argv) {
     //would be overly complicated for this sort of project. I know this is awful.
     //Just make sure any custom input is in the same format as the provided file.
     for(int i = 0; i < 5; ++i) {
-        fscanf(file, "%s", buffer);
-        allocation[i][0] = buffer[0];
-        allocation[i][1] = buffer[2];
-        allocation[i][2] = buffer[4];
-        max[i][0] = buffer[6];
-        max[i][1] = buffer[8];
-        max[i][2] = buffer[10];
+        //fscanf(file, "%s", buffer);
+        fgets(buffer, 32, file);
+        printf("Buffer: %s", buffer);
+        allocation[i][0] = (int)buffer[0] - (int)'0';
+        allocation[i][1] = (int)buffer[2] - (int)'0';
+        allocation[i][2] = (int)buffer[4] - (int)'0';
+        max[i][0] = (int)buffer[6] - (int)'0';
+        max[i][1] = (int)buffer[8] - (int)'0';
+        max[i][2] = (int)buffer[10] - (int)'0';
         
         if(i == 0) {
-            available[0] = buffer[12];
-            available[1] = buffer[14];
-            available[2] = buffer[16];
+            available[0] = (int)buffer[12] - (int)'0';
+            available[1] = (int)buffer[14] - (int)'0';
+            available[2] = (int)buffer[16] - (int)'0';
         }
     }
 
@@ -79,37 +93,53 @@ int readInFile(char **argv) {
     return 0;
 }
 
+//Safety algorithm
+//Returns true if system is in safe state, else returns false 
 bool safety() {
-    bool safe; 
     bool finished[n_Processes];
-    int work[n_Resources];
+    bool flag = false; 
+    int index = 0; 
 
     //Set initial values of finished and work arrays
     for(int i = 0; i < n_Processes; i++) {
         finished[i] = false;
     }
-
-    for(int j = 0; j < n_Resources; j++) {
-        work[j] = *allocation[j];
-    }
-
-    //Find process (i) such that both finished[i] == false and need[i] <= work 
+ 
     for(int i = 0; i < n_Processes; i++) {
-        for(int j = 0; j < n_Resources; j++) {
-            if(finished[i] == false && need[i][j] <= work[j]) { 
+        for(int j = 0; j < n_Processes; j++) {
+            /*if(finished[i] == false && need[i][j] <= work[j]) { 
                 work[j] = work[j] + allocation[i][j];
                 finished[i] = true;
+            }*/
+            if(finished[i] == false) {
+                flag = false; 
+                for(int k = 0; k < n_Resources; k++) {
+                    if(need[j][k] > available[k]) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if(flag == false) {
+                    safeSequence[index++] = i;
+                    for(int k = 0; k < n_Resources; k++) {
+                        available[k] += allocation[j][k];
+                    }
+
+                    finished[j] = true; 
+                }
             }
         }
     }
 
     //If all processes are finished then the system is in a safe state 
-    bool allSafe = false;
-    int counter = 0; 
     for(int i = 0; i < n_Processes; i++) {
-        if (finished[i] == true) ++counter;
-        if (counter == n_Processes) allSafe = true;
+        if (finished[i] == false) {
+            printf("Process %d is unfinished\n", i);
+            return false;
+        }
     }
 
-    return allSafe;
+    return true;
 }
+
