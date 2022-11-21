@@ -12,6 +12,9 @@ gcc bankers-algorithm.c -o bankers-algorithm
 
 "file.txt" has been provided alongside the program as a sample input file. The program will not run without an input file. 
 
+If run correctly, you should receive output that looks something like this:
+![Sample output](sample_output.png)
+
 # Creating Custom Input
 
 Any input file must be a .txt file and it must be in exactly the same format as the provided sample input. There should be a total of 5 rows and 9 columns. The first 3 columns should hold the starting allocation values. Columns 4-6 should hold the maximum amount of each resource that a process might request. In columns 7-9, only the first row should be filled, and they should contain the values of the initial remaining available resources. There should be 1 space between each column.
