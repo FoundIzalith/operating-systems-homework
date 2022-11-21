@@ -132,7 +132,7 @@ bool safety() {
                 work[j] = work[j] + allocation[i][j];
                 finished[i] = true;
             }*/
-            if(finished[i] == false) {
+            if(finished[j] == false) {
                 flag = false; 
                 for(int k = 0; k < n_Resources; k++) {
                     if(need[j][k] > available[k]) {
