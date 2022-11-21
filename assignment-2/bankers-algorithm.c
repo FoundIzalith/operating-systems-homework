@@ -15,7 +15,6 @@ int safeSequence[n_Processes];
 
 int readInFile(char **argv); 
 bool safety();
-void resourceRequest();
  
 //Pass data file as input
 int main(int argc, char **argv) {
@@ -44,7 +43,8 @@ int main(int argc, char **argv) {
         printf("The system is in a safe state.\n");
         printf("The safe sequence is: ");
         for(int i = 0; i < n_Processes; i++) {
-            printf(" P%d ->", safeSequence[i]);
+            if(i != n_Processes - 1) printf(" P%d ->", safeSequence[i]);
+            else printf(" P%d\n", safeSequence[i]);   
         }
     }
 
@@ -142,7 +142,7 @@ bool safety() {
                 }
 
                 if(flag == false) {
-                    safeSequence[index++] = i;
+                    safeSequence[index++] = j;
                     for(int k = 0; k < n_Resources; k++) {
                         available[k] += allocation[j][k];
                     }
